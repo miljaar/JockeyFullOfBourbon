@@ -13,7 +13,7 @@ public class DomainTest
 
     public Coach GetCoach(string name = "Xavier", List<string>? skills = null)
     {
-        skills ??= ["Wiskunde", "Taal"];
+        skills ??= ["Wiskunde", "Taal", "Geschiedenis"];
         return Coach.Create(name, $"{name.ToLower()}@vrt.be")
             .UpdateSkills(skills);
     }
@@ -28,7 +28,7 @@ public class DomainTest
         var startDate = start ??= new DateOnly(2026, 01, 01);
         var stopDate = stop ??= new DateOnly(2026, 12, 31);
         timeSlots ??= [(CourseDay.Monday, 10, 16)];
-        requiredSkills ??= ["Wiskunde"];
+        requiredSkills ??= ["Wiskunde", "Taal"];
 
         var course = Course.Create(name
             , startDate

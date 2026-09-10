@@ -1,6 +1,7 @@
 using HorsesForCourses.Domain.Coaches;
 using HorsesForCourses.Domain.Coaches.InvalidationReasons;
 using HorsesForCourses.Domain.Courses.InvalidationReasons;
+using HorsesForCourses.Domain.Skills;
 
 namespace HorsesForCourses.Tests;
 
@@ -18,7 +19,24 @@ public class CoachTests : DomainTest
     [Fact]
     public void Coach_Does_Accept_Skills()
     {
-        Assert.Equal(2, GetCoach().Skills.Count);
+        Assert.Equal(3, GetCoach().Skills.Count);
+    }
+
+    [Fact]
+    public void Coach_Can_Update_Skills()
+    {
+        var coach = GetCoach();
+        coach.UpdateSkills(["Chemie"]);
+        Assert.DoesNotContain(Skill.From("Wiskunde"), coach.Skills);
+    }
+
+    [Fact]
+    public void Coach_Can_Update_Skills_Atomic()
+    {
+        var coach = GetCoach();
+        coach.UpdateSkills(["Chemie"]);
+        Assert.Throws<SkillValueCanNotBeEmpty>(() => coach.UpdateSkills([""]));
+        Assert.DoesNotContain(Skill.From("Chemie"), coach.Skills);
     }
 
     [Fact]
@@ -27,9 +45,9 @@ public class CoachTests : DomainTest
         var coach = Coach.Create("Xavier", "xavier@vrt.be");
 
         var exception = Assert.Throws<CoachAlreadyHasSkill>(() =>
-            coach.UpdateSkills(["Wiskunde", "Taal", "Wiskunde"]));
+            coach.UpdateSkills(["Wiskunde", "Taal", "Wiskunde", "Taal"]));
         Assert.Empty(coach.Skills);
-        Assert.Equal("Wiskunde", exception.Message);
+        Assert.Equal("Wiskunde,Taal", exception.Message);
     }
 
     [Fact]

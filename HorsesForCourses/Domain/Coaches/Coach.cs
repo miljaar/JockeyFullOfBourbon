@@ -46,7 +46,7 @@ public class Coach : DomainEntity<Coach>
     }
 
     public bool IsSuitableFor(Course course)
-        => course.RequiredSkills.Any(Skills.Contains);
+        => course.RequiredSkills.All(Skills.Contains);
 
     public bool IsAvailableFor(Course course)
         => CheckIf.ImAvailable(this).For(course);
