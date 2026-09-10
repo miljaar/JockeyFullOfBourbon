@@ -38,10 +38,10 @@ public class Coach : DomainEntity<Coach>
             => newSkills.NoDuplicatesAllowed(a => new CoachAlreadyHasSkill(string.Join(",", a)));
         void OverwriteSkills()
         {
+            var newSkillObj = newSkills.Select(Skill.From)
+                .ToList();
             skills.Clear();
-            newSkills.Select(Skill.From)
-                .ToList()
-                .ForEach(a => skills.Add(a));
+            newSkillObj.ForEach(a => skills.Add(a));
         }
     }
 

@@ -36,7 +36,7 @@ public class CoachTests : DomainTest
         var coach = GetCoach();
         coach.UpdateSkills(["Chemie"]);
         Assert.Throws<SkillValueCanNotBeEmpty>(() => coach.UpdateSkills([""]));
-        Assert.DoesNotContain(Skill.From("Chemie"), coach.Skills);
+        Assert.Contains(Skill.From("Chemie"), coach.Skills);
     }
 
     [Fact]
