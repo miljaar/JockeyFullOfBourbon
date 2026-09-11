@@ -44,8 +44,9 @@ public class Course : DomainEntity<Course>
             => newSkills.NoDuplicatesAllowed(a => new CourseAlreadyHasSkill(string.Join(",", a)));
         Course OverwriteRequiredSkills()
         {
+            var newSkillsObj = newSkills.Select(Skill.From).ToList();
             requiredSkills.Clear();
-            foreach (var s in newSkills.Select(Skill.From)) requiredSkills.Add(s);
+            newSkillsObj.ForEach(s => requiredSkills.Add(s));
             return this;
         }
     }
